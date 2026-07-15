@@ -92,7 +92,7 @@ PAGE = '''<!DOCTYPE html>
 </head>
 <body class="static">
 <main class="spage">
-<div class="sp-top"><a class="sp-brand" href="{rel}index.html">籤到</a><a href="{rel}all.html">籤庫</a></div>
+<div class="sp-top"><a class="sp-brand" href="{rel}index.html">籤到</a><span><a href="{rel}all.html">籤庫</a>　<a href="{rel}about.html">關於</a></span></div>
 {body}
 </main>
 </body>
@@ -163,7 +163,7 @@ def build_all_page(entries):
                        base=BASE_URL, rel="", jsonld=jsonld, body=body)
 
 def build_sitemap(total):
-    urls = [BASE_URL, f"{BASE_URL}all.html"] + [f"{BASE_URL}q/{i}.html" for i in range(1, total+1)]
+    urls = [BASE_URL, f"{BASE_URL}all.html", f"{BASE_URL}about.html"] + [f"{BASE_URL}q/{i}.html" for i in range(1, total+1)]
     items = "".join(f"<url><loc>{u}</loc></url>" for u in urls)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{items}</urlset>\n'
 

@@ -40,7 +40,34 @@
 
   <!-- 幕 0 · 入殿 -->
   <section class="scene active" id="scene-enter" data-step="0">
-    <div class="lantern" aria-hidden="true"></div>
+    <div class="lantern-wrap" aria-hidden="true"><svg class="lantern" viewBox="0 0 120 196" width="104" role="presentation">
+      <defs>
+        <radialGradient id="lanternGlow" cx="50%" cy="36%" r="72%">
+          <stop offset="0%" stop-color="#ffb066"/><stop offset="42%" stop-color="#d84b2d"/><stop offset="100%" stop-color="#8c2512"/>
+        </radialGradient>
+        <linearGradient id="capGold" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#d9bc5e"/><stop offset="100%" stop-color="#8a7434"/>
+        </linearGradient>
+      </defs>
+      <rect x="41" y="2" width="38" height="9" rx="3.5" fill="url(#capGold)"/>
+      <rect x="51" y="11" width="18" height="9" fill="#6e5826"/>
+      <ellipse cx="60" cy="76" rx="55" ry="57" fill="url(#lanternGlow)"/>
+      <ellipse cx="60" cy="76" rx="55" ry="57" fill="none" stroke="#7a1f0e" stroke-width="1.6" opacity=".7"/>
+      <ellipse cx="60" cy="76" rx="41" ry="57" fill="none" stroke="#8c2512" stroke-width="1.4" opacity=".55"/>
+      <ellipse cx="60" cy="76" rx="26" ry="57" fill="none" stroke="#8c2512" stroke-width="1.3" opacity=".5"/>
+      <ellipse cx="60" cy="76" rx="11" ry="57" fill="none" stroke="#8c2512" stroke-width="1.2" opacity=".45"/>
+      <ellipse cx="42" cy="50" rx="17" ry="24" fill="rgba(255,224,170,.16)"/>
+      <text x="60" y="90" text-anchor="middle" font-size="38" fill="#f9edd2" opacity=".92" class="lantern-char">籤</text>
+      <rect x="36" y="127" width="48" height="9" rx="4" fill="#8c2512"/>
+      <rect x="45" y="136" width="30" height="8" rx="3" fill="url(#capGold)"/>
+      <g class="lantern-tassel">
+        <line x1="60" y1="144" x2="60" y2="156" stroke="#a32a12" stroke-width="3"/>
+        <circle cx="60" cy="160" r="4.5" fill="#c9a227"/>
+        <line x1="56" y1="164" x2="55" y2="190" stroke="#c43a20" stroke-width="2"/>
+        <line x1="60" y1="164" x2="60" y2="193" stroke="#c43a20" stroke-width="2"/>
+        <line x1="64" y1="164" x2="65" y2="190" stroke="#c43a20" stroke-width="2"/>
+      </g>
+    </svg></div>
     <div class="plaque"><h1 class="site-title" lang="zh-Hant"><span>籤</span><span>到</span></h1></div>
     <p class="site-sub">上班前，先打卡籤到。</p>
     <p class="today-line" id="todayLine"></p>
@@ -48,7 +75,7 @@
     <button class="btn btn-primary" id="btnEnter">入殿求籤</button>
     <button class="btn btn-ghost" id="btnHistory" hidden>我的籤</button>
     <p class="fine-print">128 首籤詩皆為本殿新撰・不占卜吉凶禍福，只陪你把問題想清楚</p>
-    <nav class="enter-links"><a href="all.html">籤庫・關於本殿</a></nav>
+    <nav class="enter-links"><a href="all.html">籤庫</a><span class="link-dot">・</span><a href="about.html">關於</a></nav>
     <noscript><p class="scene-guide">籤到是線上求籤服務：128 首全新籤詩（花木、本草、鳥獸、山川、時事、東西方歷史七大意象），
     完整台灣廟宇求籤儀式——擲筊請籤、搖籤筒、三聖筊確認。請開啟 JavaScript 體驗求籤，
     或直接瀏覽 <a href="all.html">籤庫</a> 閱讀全部籤詩。</p></noscript>

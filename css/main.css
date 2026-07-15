@@ -113,24 +113,20 @@ body::after {
 .scene-guide strong { color: var(--paper); font-family: var(--font-kai); }
 
 /* ---------- 幕0 入殿 ---------- */
-.lantern {
-  width: 96px; height: 80px;
-  border-radius: 50% / 48%;
-  background:
-    repeating-linear-gradient(90deg, transparent 0 13px, rgba(0, 0, 0, .12) 13px 16px),
-    radial-gradient(circle at 50% 38%, #ff9d5c 0%, var(--vermilion) 45%, var(--vermilion-deep) 85%);
-  box-shadow: 0 0 44px 10px rgba(230, 96, 42, .38), 0 0 140px 40px rgba(230, 96, 42, .14);
-  position: relative;
+.lantern-wrap {
   animation: lantern-sway 5.5s ease-in-out infinite;
-  transform-origin: 50% -30px;
+  transform-origin: 50% -40px;
+  filter:
+    drop-shadow(0 0 26px rgba(230, 96, 42, .5))
+    drop-shadow(0 0 90px rgba(230, 96, 42, .22));
 }
-.lantern::before, .lantern::after {
-  content: ""; position: absolute; left: 50%; transform: translateX(-50%);
-  background: var(--gold-dim); border-radius: 3px;
+.lantern-char { font-family: var(--font-kai); }
+.lantern-tassel {
+  animation: tassel-sway 5.5s ease-in-out infinite;
+  transform-origin: 60px 144px;
 }
-.lantern::before { top: -8px; width: 30px; height: 8px; }
-.lantern::after { bottom: -10px; width: 22px; height: 10px; background: var(--vermilion-deep); }
 @keyframes lantern-sway { 0%,100% { rotate: -2.2deg; } 50% { rotate: 2.2deg; } }
+@keyframes tassel-sway { 0%,100% { rotate: 2.6deg; } 50% { rotate: -2.6deg; } }
 
 /* 直匾（匾額框） */
 .plaque {
@@ -147,8 +143,9 @@ body::after {
 }
 .plaque::before { top: 7px; left: 7px; box-shadow: calc(100% + 0px) 0 0 0 transparent; }
 .plaque::after { bottom: 7px; right: 7px; }
-.enter-links { margin-top: 2px; }
+.enter-links { margin-top: 2px; display: flex; gap: 10px; align-items: baseline; }
 .enter-links a { color: var(--gold-dim); font-size: .8rem; letter-spacing: .2em; text-decoration: none; border-bottom: 1px solid rgba(138, 116, 52, .4); padding-bottom: 2px; }
+.enter-links .link-dot { color: #4a4034; font-size: .7rem; }
 
 /* 直排一律逐字排版，不用 writing-mode——缺垂直 metrics 的字型會疊字 */
 .site-title {
@@ -163,7 +160,14 @@ body::after {
 }
 .site-sub { font-family: var(--font-serif); color: var(--gold); letter-spacing: .3em; text-indent: .3em; }
 .today-line { color: var(--smoke); font-size: .85rem; }
-.daily-luck { font-family: var(--font-kai); font-size: 1rem; color: var(--paper); opacity: .9; }
+.daily-luck {
+  font-family: var(--font-kai); font-size: 1.02rem; color: var(--paper);
+  opacity: .92; line-height: 2;
+}
+.daily-luck .dl-day {
+  color: var(--gold); font-size: .82rem;
+  letter-spacing: .5em; text-indent: .5em;
+}
 
 .fine-print { color: #5d5348; font-size: .72rem; max-width: 34ch; margin-top: 6px; }
 
@@ -249,6 +253,7 @@ body::after {
   100% { opacity: 1; scale: 1; }
 }
 .jiao-body {
+  transition: background .22s ease, border-radius .22s ease;
   width: 66px; height: 38px;
   border-radius: 50% 50% 44% 44% / 96% 96% 22% 22%;
   background: linear-gradient(160deg, #e0532f 0%, var(--vermilion) 45%, #8c2512 100%);

@@ -130,7 +130,13 @@ function initEnter() {
   const JI = ["全部回覆", "臨時加會", "已讀亂回", "熬夜改稿", "衝動購物", "跟別人比較", "硬撐", "開第五十個分頁", "在群組裡爭對錯", "假裝沒事", "空腹喝第三杯咖啡", "把心事帶回家"];
   const seed = Number(`${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}`);
   const pick = (arr, s) => arr[s % arr.length];
-  $("#dailyLuck").textContent = `今日宜：${pick(YI, seed)}。忌：${pick(JI, seed * 7 + 3)}。`;
+  $("#dailyLuck").innerHTML = "";
+  const dl = $("#dailyLuck");
+  const dlDay = document.createElement("span");
+  dlDay.className = "dl-day"; dlDay.textContent = "今日";
+  dl.append(dlDay, document.createElement("br"),
+    `宜：${pick(YI, seed)}。`, document.createElement("br"),
+    `忌：${pick(JI, seed * 7 + 3)}。`);
 
   const bag = loadBag();
   if (bag.length) {
@@ -181,10 +187,13 @@ function animateToss(pairEl, result) {
     }
     void pairEl.offsetWidth; // reflow 重啟動畫
     j1.classList.add("tossing"); j2.classList.add("tossing");
-    setTimeout(() => { sndJiaoLand(); buzz([20, 40, 20]); }, 780);
-    j2.querySelector(".jiao-body").addEventListener("animationend", () => {
+    // 滯空最高點（高速旋轉、殘影期）換面，落地時已是最終面
+    setTimeout(() => {
       if (faces[0]) j1.classList.add("flat");
       if (faces[1]) j2.classList.add("flat");
+    }, 460);
+    setTimeout(() => { sndJiaoLand(); buzz([20, 40, 20]); }, 780);
+    j2.querySelector(".jiao-body").addEventListener("animationend", () => {
       j1.classList.remove("tossing"); j2.classList.remove("tossing");
       res();
     }, { once: true });
@@ -451,15 +460,16 @@ let savedThisRound = false;
 function saveBagAuto(entry) { savedThisRound = false; }
 function initBag() {
   $("#btnSave").addEventListener("click", () => {
-    if (savedThisRound || !current) return;
+    if (!current) return;
+    if (savedThisRound) { openBag(); return; }
     const bag = loadBag();
     bag.unshift({ id: current.id, level: current.level, title: current.title, cat: state.cat, date: new Date().toISOString().slice(0, 10), murmur: state.murmur });
     localStorage.setItem("qiandao.bag", JSON.stringify(bag.slice(0, 60)));
     savedThisRound = true;
-    $("#btnSave").textContent = "已收好";
+    $("#btnSave").textContent = "查看籤袋";
     buzz(20);
   });
-  $("#btnHistory").addEventListener("click", () => {
+  function openBag() {
     const bag = loadBag(), ul = $("#bagList");
     ul.innerHTML = "";
     if (!bag.length) ul.innerHTML = `<li class="bag-empty">籤袋空空，先去求一支。</li>`;
@@ -478,7 +488,8 @@ function initBag() {
       ul.appendChild(li);
     });
     go("scene-bag");
-  });
+  }
+  $("#btnHistory").addEventListener("click", openBag);
   $("#btnBagBack").addEventListener("click", () => go("scene-enter"));
 }
 
@@ -557,8 +568,8 @@ async function drawShareCard(entry) {
   ctx.font = "30px system-ui, sans-serif";
   ctx.fillText("籤到 — 上班前，先打卡籤到", W / 2, H - 150);
   ctx.fillStyle = "#c9a227";
-  ctx.font = "32px system-ui, sans-serif";
-  ctx.fillText(siteUrl(entry.id), W / 2, H - 92);
+  ctx.font = "34px system-ui, sans-serif";
+  ctx.fillText(location.host, W / 2, H - 92);
   return new Promise(res => cv.toBlob(res, "image/png"));
 }
 /* 每籤專屬頁網址（導流回站） */
@@ -605,8 +616,15 @@ function initShare() {
     btn.textContent = "裝裱中…";
     try {
       const blob = await drawShareCard(current);
-      downloadBlob(blob, `qiandao-${current.id}.png`);
-      btn.textContent = "已存";
+      const file = new File([blob], `qiandao-${current.id}.png`, { type: "image/png" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        // 分享面板內選「儲存影像」即可存入相簿
+        await navigator.share({ files: [file], title: "籤到籤卡" });
+        btn.textContent = "已送出";
+      } else {
+        downloadBlob(blob, file.name);
+        btn.textContent = "已存";
+      }
     } catch (e) { btn.textContent = "存圖片"; }
     setTimeout(() => { btn.textContent = "存圖片"; }, 2000);
   });
