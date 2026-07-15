@@ -26,14 +26,21 @@ html { height: 100%; }
 
 body {
   min-height: 100dvh;
-  background:
-    radial-gradient(120% 90% at 50% -10%, #2a1f16 0%, var(--ink) 55%),
-    var(--ink);
+  background: var(--ink);
   color: var(--paper);
   font-family: var(--font-ui);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow: hidden;
+}
+
+/* 夜色漸層：fixed 偽元素，避免長頁背景重複產生斷裂 */
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(120% 90% at 50% -10%, #2a1f16 0%, var(--ink) 55%);
 }
 
 /* 紙紋顆粒，全域覆膜 */
@@ -572,6 +579,14 @@ body::after {
 .charm { color: var(--smoke); font-size: .85rem; }
 .charm::before { content: "開運小物 · "; color: var(--gold-dim); }
 
+.genz-block .read-genz {
+  font-family: var(--font-ui);
+  font-size: .96rem;
+  color: #e6dbc4;
+  line-height: 1.85;
+  border-left: 2px solid var(--gold-dim);
+  padding-left: 12px;
+}
 .streak-block { align-items: center; }
 .streak { color: var(--gold-dim); font-size: .8rem; letter-spacing: .15em; }
 
@@ -579,8 +594,26 @@ body::after {
   display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
   margin-top: 6px;
 }
-.actions .btn { flex: 1 1 40%; padding: 12px 10px; font-size: .92rem; }
+.actions .btn { padding: 12px 10px; font-size: .92rem; }
 .actions .btn-primary { flex-basis: 100%; }
+.actions-minor { display: flex; gap: 8px; width: 100%; }
+.actions-minor button {
+  flex: 1;
+  background: transparent;
+  border: 1px solid rgba(245, 237, 218, .18);
+  color: #b6a98f;
+  border-radius: 999px;
+  min-height: 42px;
+  font-size: .82rem;
+  font-family: var(--font-ui);
+  letter-spacing: .08em;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: color .2s, border-color .2s, transform .15s;
+}
+.actions-minor button:active { transform: scale(.96); }
+.actions-minor button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.actions .btn-ghost { flex-basis: 100%; }
 .reading .fine-print { text-align: center; align-self: center; }
 
 /* ---------- 籤袋 ---------- */

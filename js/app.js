@@ -29,6 +29,7 @@ const QIAN_WANG = { // 籤王 · 1/512 彩蛋
   id: 0, level: "籤王", family: "彩蛋", title: "本日免問",
   jieyue: ["心中有數", "不必再問", "即知即行", "天亦點頭"],
   warning: "知而不行最誤事",
+  genz: "連神明都幫你跳過廣告了，這集請直接看正片。",
   poem: ["天亦無言萬事通", "紙上無字勝千籤", "汝心已有答案在", "回去做它便是靈"],
   story: "有人搖出一支無字籤，慌忙求解。廟公瞄了一眼：「恭喜，神明今天放你一天假——祂說你自己早就知道答案了，別再問了。」那人愣在原地，忽然笑出聲來。",
   oracle: "籤王極罕，非吉非凶，是神明對你的信任投票：這件事你心裡其實已經決定了，缺的只是允許。現在，本殿正式允許你。",
@@ -403,6 +404,7 @@ function reveal(entry, fromBag = false) {
   });
   $("#readStory").textContent = entry.story;
   $("#readOracle").textContent = entry.oracle;
+  $("#readGenz").textContent = entry.genz || "";
   const dl = $("#answers");
   dl.innerHTML = "";
   const order = state.cat && !fromBag
@@ -454,7 +456,7 @@ function initBag() {
     bag.unshift({ id: current.id, level: current.level, title: current.title, cat: state.cat, date: new Date().toISOString().slice(0, 10), murmur: state.murmur });
     localStorage.setItem("qiandao.bag", JSON.stringify(bag.slice(0, 60)));
     savedThisRound = true;
-    $("#btnSave").textContent = "已收進籤袋";
+    $("#btnSave").textContent = "已收好";
     buzz(20);
   });
   $("#btnHistory").addEventListener("click", () => {
@@ -566,10 +568,18 @@ function siteUrl(id) {
 }
 function fullUrl(id) { return "https://" + siteUrl(id).replace(/^https:\/\//, ""); }
 function initShare() {
+  function downloadBlob(blob, name) {
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  }
   $("#btnShare").addEventListener("click", async () => {
     if (!current) return;
     const btn = $("#btnShare");
     btn.disabled = true; btn.textContent = "正在裝裱…";
+    let done = "打卡分享";
     try {
       const blob = await drawShareCard(current);
       const file = new File([blob], `qiandao-${current.id}.png`, { type: "image/png" });
@@ -580,14 +590,25 @@ function initShare() {
           text: `我在籤到抽到${current.level}——「${current.zen}」 ${fullUrl(current.id)}`,
         });
       } else {
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = file.name;
-        a.click();
-        setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+        // 桌機／不支援檔案分享：存圖＋複製連結一次完成
+        downloadBlob(blob, file.name);
+        try { await navigator.clipboard.writeText(fullUrl(current.id)); done = "已存圖並複製連結"; }
+        catch (e) { done = "已存圖"; }
       }
     } catch (e) { /* 使用者取消分享 */ }
-    btn.disabled = false; btn.textContent = "分享籤卡";
+    btn.disabled = false; btn.textContent = done;
+    if (done !== "打卡分享") setTimeout(() => { btn.textContent = "打卡分享"; }, 2200);
+  });
+  $("#btnSaveImg").addEventListener("click", async () => {
+    if (!current) return;
+    const btn = $("#btnSaveImg");
+    btn.textContent = "裝裱中…";
+    try {
+      const blob = await drawShareCard(current);
+      downloadBlob(blob, `qiandao-${current.id}.png`);
+      btn.textContent = "已存";
+    } catch (e) { btn.textContent = "存圖片"; }
+    setTimeout(() => { btn.textContent = "存圖片"; }, 2000);
   });
   $("#btnCopyLink").addEventListener("click", async () => {
     if (!current) return;
@@ -599,7 +620,7 @@ function initShare() {
     } catch (e) {
       if (navigator.share) { try { await navigator.share({ text }); } catch (e2) {} }
     }
-    setTimeout(() => { btn.textContent = "複製籤詩連結"; }, 1800);
+    setTimeout(() => { btn.textContent = "複製連結"; }, 1800);
   });
 }
 
@@ -614,7 +635,7 @@ function initAgain() {
     $("#murmur").value = "";
     $("#askResult").innerHTML = ""; $("#askGuide").textContent = "擲筊請示：可否賜籤？";
     $("#shakeGuide").textContent = "按住籤筒搖晃，直到一支籤躍出。";
-    $("#btnSave").textContent = "收進籤袋"; $("#btnSave").hidden = false;
+    $("#btnSave").textContent = "收籤袋"; $("#btnSave").hidden = false;
     resetConfirm();
     go("scene-pray");
   });

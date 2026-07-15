@@ -16,7 +16,7 @@ def clen(s):
 def check_entry(e, errs):
     eid = e.get("id", "?")
     def err(msg): errs.append(f"籤 {eid}: {msg}")
-    for k in ["id", "level", "family", "title", "poem", "story", "oracle", "answers", "jieyue", "warning", "zen", "charm"]:
+    for k in ["id", "level", "family", "title", "poem", "story", "oracle", "answers", "jieyue", "warning", "zen", "charm", "genz"]:
         if k not in e: err(f"缺欄位 {k}")
     if e.get("level") not in LEVELS: err(f"籤等不合法: {e.get('level')}")
     fam = e.get("family")
@@ -31,6 +31,8 @@ def check_entry(e, errs):
         if clen(ph) != 4: err(f"解曰第{i+1}句非四字 ({clen(ph)}): {ph}")
         if re.search(r"[，。、！？,.!?\s]", ph): err(f"解曰第{i+1}句含標點: {ph}")
     if not (6 <= clen(e.get("warning", "")) <= 16): err(f"warning 長度 {clen(e.get('warning',''))} 不在 6–16")
+    gz = e.get("genz", "")
+    if not (16 <= clen(gz) <= 70): err(f"genz 長度 {clen(gz)} 不在 16–70")
     poem = e.get("poem", [])
     if len(poem) != 4: err(f"詩非四句 ({len(poem)})")
     for i, line in enumerate(poem):

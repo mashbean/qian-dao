@@ -61,6 +61,7 @@ def reading_html(e):
     return f'''<div class="reading">
   <section class="read-block"><h3 class="read-label">卦頭故事</h3><p class="read-story">{esc(e["story"])}</p></section>
   <section class="read-block"><h3 class="read-label">聖意</h3><p class="read-oracle">{esc(e["oracle"])}</p></section>
+  <section class="read-block genz-block"><h3 class="read-label">Z世代廟公曰</h3><p class="read-genz">{esc(e.get("genz",""))}</p></section>
   <section class="read-block"><h3 class="read-label">解曰</h3><dl class="answers">{rows}</dl></section>
   <section class="read-block zen-block"><p class="zen">{esc(e["zen"])}</p><p class="charm">{esc(e["charm"])}</p></section>
 </div>'''
