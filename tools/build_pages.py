@@ -87,7 +87,7 @@ PAGE = '''<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont@1.2.0/style.css">
-<link rel="stylesheet" href="{rel}css/main.css">
+<link rel="stylesheet" href="{rel}css/main.css?v=3">
 <script type="application/ld+json">{jsonld}</script>
 </head>
 <body class="static">
