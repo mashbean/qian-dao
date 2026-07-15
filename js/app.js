@@ -1,4 +1,4 @@
-/* 籤到 QIANDAO — 互動核心
+/* 籤到 — 互動核心
    儀式流程：入殿 → 稟告 → 請籤(擲筊) → 搖籤筒 → 三聖筊確認 → 展籤 → 解籤
    無後端、無追蹤；默念與籤袋只存 localStorage。 */
 
@@ -553,7 +553,7 @@ async function drawShareCard(entry) {
   ctx.fillText(`「${entry.zen}」`, W / 2, py + ph + 120);
   ctx.fillStyle = "#8a7f72";
   ctx.font = "30px system-ui, sans-serif";
-  ctx.fillText("籤到 QIANDAO — 上班前，先籤到", W / 2, H - 150);
+  ctx.fillText("籤到 — 上班前，先打卡籤到", W / 2, H - 150);
   ctx.fillStyle = "#c9a227";
   ctx.font = "32px system-ui, sans-serif";
   ctx.fillText(siteUrl(entry.id), W / 2, H - 92);

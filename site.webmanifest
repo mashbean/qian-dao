@@ -1,7 +1,7 @@
 {
-  "name": "籤到 QIANDAO",
+  "name": "籤到",
   "short_name": "籤到",
-  "description": "上班前，先籤到。128 首寫給現代上班族的籤詩。",
+  "description": "通勤不順，不想起床？求一隻今天的籤。",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#171210",

@@ -101,7 +101,7 @@ PAGE = '''<!DOCTYPE html>
 def build_qian_page(e, total):
     i = e["id"]
     canonical = f"{BASE_URL}q/{i}.html"
-    title = f"第{num_tc(i)}籤 {e['title']}（{e['level']}）｜籤到 QIANDAO 線上籤詩"
+    title = f"第{num_tc(i)}籤 {e['title']}（{e['level']}）｜籤到 線上籤詩"
     desc = f"籤到第{num_tc(i)}籤「{e['title']}」{e['level']}：{'，'.join(e['poem'])}。解曰：{'、'.join(e['jieyue'])}。附卦頭故事、聖意與事業功名財運感情健康出行六項解籤。"
     jsonld = json.dumps({
         "@context": "https://schema.org",
@@ -111,7 +111,7 @@ def build_qian_page(e, total):
         "abstract": e["oracle"],
         "genre": "籤詩",
         "inLanguage": "zh-Hant-TW",
-        "isPartOf": {"@type": "WebSite", "name": "籤到 QIANDAO", "url": BASE_URL},
+        "isPartOf": {"@type": "WebSite", "name": "籤到", "url": BASE_URL},
         "url": canonical,
     }, ensure_ascii=False)
     prev_id, next_id = (i-1) if i > 1 else total, (i+1) if i < total else 1
@@ -150,7 +150,7 @@ def build_all_page(entries):
         "mainEntity": [{"@type": "Question", "name": q,
                         "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in FAQ],
     }, ensure_ascii=False)
-    title = "籤庫總覽：128 首籤詩全文＋求籤方法 FAQ｜籤到 QIANDAO"
+    title = "籤庫總覽：128 首籤詩全文＋求籤方法 FAQ｜籤到"
     desc = "籤到 128 首籤詩總覽：花木、本草、鳥獸、山川、時事、東方歷史、西方歷史七大意象體系，各籤附籤等與籤尾語。含線上求籤方法、擲筊規則、籤等分布 FAQ。"
     body = f'''<h1 class="sp-h1">籤 庫 總 覽</h1>
 <section class="faq" itemscope>{faq_html}</section>
