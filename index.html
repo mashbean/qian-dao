@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>籤到 QIANDAO｜線上求籤・抽籤詩・免費解籤 — 上班前，先籤到</title>
+<meta name="description" content="免費線上求籤：128 首全新創作籤詩（花木、本草、鳥獸、山川、時事、東西方歷史七大意象），完整台灣廟宇求籤儀式——默禱稟告、擲筊請籤、搖籤筒抽籤、三聖筊確認、解籤。無須註冊、不追蹤，手機即可求籤。">
+<meta name="keywords" content="線上求籤,抽籤,籤詩,解籤,靈籤,擲筊,運勢,每日一籤,上班族,籤到">
+<meta name="theme-color" content="#171210">
+<link rel="canonical" href="https://check.mashbean.net/">
+<meta property="og:title" content="籤到 QIANDAO — 上班前，先籤到">
+<meta property="og:description" content="128 首全新籤詩，完整台灣求籤儀式：擲筊、搖籤筒、三聖筊確認。求一支今天的籤。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://check.mashbean.net/">
+<meta property="og:image" content="https://check.mashbean.net/assets/og.png">
+<meta property="og:locale" content="zh_TW">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"WebSite","name":"籤到 QIANDAO","alternateName":"上班前，先籤到","url":"https://check.mashbean.net/","inLanguage":"zh-Hant-TW","description":"線上求籤服務：128 首全新籤詩與完整台灣廟宇求籤儀式。"},
+ {"@type":"WebApplication","name":"籤到","url":"https://check.mashbean.net/","applicationCategory":"LifestyleApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"TWD"},"description":"擲筊請籤、搖籤筒抽籤、三聖筊確認、Canvas 籤卡分享的線上求籤體驗。"}
+]}
+</script>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont@1.2.0/style.css">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<!-- 香 進度 -->
+<div class="incense" aria-hidden="true">
+  <div class="incense-stick"><div class="incense-burn" id="incenseBurn"><span class="ember"></span></div></div>
+</div>
+
+<main id="stage">
+
+  <!-- 幕 0 · 入殿 -->
+  <section class="scene active" id="scene-enter" data-step="0">
+    <div class="lantern" aria-hidden="true"></div>
+    <div class="plaque"><h1 class="site-title" lang="zh-Hant"><span>籤</span><span>到</span></h1></div>
+    <p class="site-sub">上班前，先籤到。</p>
+    <p class="today-line" id="todayLine"></p>
+    <p class="daily-luck" id="dailyLuck"></p>
+    <button class="btn btn-primary" id="btnEnter">入殿求籤</button>
+    <button class="btn btn-ghost" id="btnHistory" hidden>我的籤</button>
+    <p class="fine-print">128 首籤詩皆為本殿新撰・不占卜吉凶禍福，只陪你把問題想清楚</p>
+    <nav class="enter-links"><a href="all.html">籤庫・關於本殿</a></nav>
+    <noscript><p class="scene-guide">籤到是線上求籤服務：128 首全新籤詩（花木、本草、鳥獸、山川、時事、東西方歷史七大意象），
+    完整台灣廟宇求籤儀式——擲筊請籤、搖籤筒、三聖筊確認。請開啟 JavaScript 體驗求籤，
+    或直接瀏覽 <a href="all.html">籤庫</a> 閱讀全部籤詩。</p></noscript>
+  </section>
+
+  <!-- 幕 1 · 稟告 -->
+  <section class="scene" id="scene-pray" data-step="1">
+    <h2 class="scene-title">稟告</h2>
+    <p class="scene-guide">默念你的名字，與心中所問之事。<br>一事一問，問得越具體，籤越清楚。</p>
+    <div class="cat-grid" id="catGrid" role="group" aria-label="所問之事">
+      <button class="cat" data-cat="事業">事業<small>手上的工作</small></button>
+      <button class="cat" data-cat="功名">功名<small>升遷・轉職・面試</small></button>
+      <button class="cat" data-cat="財運">財運<small>薪水・投資</small></button>
+      <button class="cat" data-cat="感情">感情<small>戀愛・家人</small></button>
+      <button class="cat" data-cat="健康">健康<small>身體・心理</small></button>
+      <button class="cat" data-cat="出行">出行<small>出差・旅行・搬遷</small></button>
+    </div>
+    <label class="murmur-label" for="murmur">心中默念（可留白，只存在你手機裡）</label>
+    <textarea id="murmur" rows="2" maxlength="120" placeholder="例：該不該接下那個新專案……"></textarea>
+    <button class="btn btn-primary" id="btnPray" disabled>上香稟告</button>
+  </section>
+
+  <!-- 幕 2 · 請籤（擲筊請示） -->
+  <section class="scene" id="scene-ask" data-step="2">
+    <h2 class="scene-title">請籤</h2>
+    <p class="scene-guide" id="askGuide">擲筊請示：可否賜籤？</p>
+    <div class="jiao-arena" id="askArena">
+      <div class="jiao-pair" id="askJiao" aria-hidden="true">
+        <div class="jiao j1"><div class="jiao-body"></div></div>
+        <div class="jiao j2"><div class="jiao-body"></div></div>
+      </div>
+      <p class="jiao-result" id="askResult" role="status" aria-live="polite"></p>
+    </div>
+    <button class="btn btn-primary btn-throw" id="btnAskThrow">擲筊</button>
+  </section>
+
+  <!-- 幕 3 · 搖籤筒 -->
+  <section class="scene" id="scene-shake" data-step="3">
+    <h2 class="scene-title">抽籤</h2>
+    <p class="scene-guide" id="shakeGuide">按住籤筒搖晃，直到一支籤躍出。</p>
+    <div class="tube-arena">
+      <div class="tube" id="tube" role="button" tabindex="0" aria-label="按住搖籤筒">
+        <div class="stick stick-out" id="stickOut" aria-hidden="true"><span class="stick-tip"></span></div>
+        <div class="sticks" aria-hidden="true">
+          <span class="stick s1"></span><span class="stick s2"></span><span class="stick s3"></span>
+          <span class="stick s4"></span><span class="stick s5"></span><span class="stick s6"></span>
+          <span class="stick s7"></span>
+        </div>
+        <div class="tube-body"><span class="tube-char">籤</span></div>
+      </div>
+      <div class="shake-meter" aria-hidden="true"><div class="shake-fill" id="shakeFill"></div></div>
+    </div>
+    <button class="btn btn-ghost" id="btnNoShake">手痠了，直接抽</button>
+  </section>
+
+  <!-- 幕 4 · 三筊確認 -->
+  <section class="scene" id="scene-confirm" data-step="4">
+    <h2 class="scene-title">確認</h2>
+    <p class="scene-guide">抽得<strong id="confirmNum">第◯籤</strong>。<br>連得三聖筊，才是你的籤。</p>
+    <div class="jiao-tally" id="jiaoTally" aria-label="聖筊進度">
+      <span class="tally" data-i="0"></span><span class="tally" data-i="1"></span><span class="tally" data-i="2"></span>
+    </div>
+    <div class="jiao-arena">
+      <div class="jiao-pair" id="confirmJiao" aria-hidden="true">
+        <div class="jiao j1"><div class="jiao-body"></div></div>
+        <div class="jiao j2"><div class="jiao-body"></div></div>
+      </div>
+      <p class="jiao-result" id="confirmResult" role="status" aria-live="polite"></p>
+    </div>
+    <button class="btn btn-primary btn-throw" id="btnConfirmThrow">擲筊</button>
+  </section>
+
+  <!-- 幕 5+6 · 展籤與解籤 -->
+  <section class="scene scene-scroll" id="scene-reveal" data-step="5">
+    <div class="paper-wrap">
+      <article class="paper" id="paper" aria-label="籤詩">
+        <div class="paper-frame"><div class="paper-inner">
+          <header class="paper-head"><span class="temple-name">籤 到 殿</span></header>
+          <div class="level-stamp" id="paperLevel" aria-label="籤等"></div>
+          <div class="paper-cols">
+            <div class="pcol pcol-l" id="paperGua" aria-label="卦象五行"></div>
+            <div class="pcenter">
+              <h2 class="paper-title" id="paperTitle"></h2>
+              <div class="poem" id="poem" lang="zh-Hant"></div>
+              <div class="jieyue"><span class="jy-label"><span>解</span><span>曰</span></span><div class="jy-cols" id="jieyue"></div></div>
+            </div>
+            <div class="pcol pcol-r" id="paperNum" aria-label="籤序"></div>
+          </div>
+          <p class="paper-warning" id="paperWarning"></p>
+          <div class="seal" id="seal" aria-hidden="true"><span>之</span><span>籤</span><span>印</span><span>到</span></div>
+        </div></div>
+      </article>
+    </div>
+
+    <div class="reading" id="reading">
+      <section class="read-block">
+        <h3 class="read-label">卦頭故事</h3>
+        <p class="read-story" id="readStory"></p>
+      </section>
+      <section class="read-block">
+        <h3 class="read-label">聖意</h3>
+        <p class="read-oracle" id="readOracle"></p>
+      </section>
+      <section class="read-block">
+        <h3 class="read-label">解曰</h3>
+        <dl class="answers" id="answers"></dl>
+      </section>
+      <section class="read-block zen-block">
+        <p class="zen" id="readZen"></p>
+        <p class="charm" id="readCharm"></p>
+      </section>
+      <section class="read-block streak-block">
+        <p class="streak" id="streakLine"></p>
+      </section>
+      <div class="actions">
+        <button class="btn btn-primary" id="btnShare">分享籤卡</button>
+        <button class="btn btn-ghost" id="btnCopyLink">複製籤詩連結</button>
+        <button class="btn btn-ghost" id="btnSave">收進籤袋</button>
+        <button class="btn btn-ghost" id="btnAgain">再求一籤</button>
+      </div>
+      <p class="fine-print">一事不二問。同一件事，請隔些時日再來。</p>
+    </div>
+  </section>
+
+  <!-- 籤袋（收藏） -->
+  <section class="scene scene-scroll" id="scene-bag" data-step="-1">
+    <h2 class="scene-title">我的籤袋</h2>
+    <ul class="bag-list" id="bagList"></ul>
+    <button class="btn btn-ghost" id="btnBagBack">回大殿</button>
+  </section>
+
+</main>
+
+<canvas id="shareCanvas" width="1080" height="1920" hidden></canvas>
+<script src="js/app.js" defer></script>
+</body>
+</html>

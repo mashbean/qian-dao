@@ -1,0 +1,12 @@
+{
+  "name": "籤到 QIANDAO",
+  "short_name": "籤到",
+  "description": "上班前，先籤到。128 首寫給現代上班族的籤詩。",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#171210",
+  "theme_color": "#171210",
+  "icons": [
+    { "src": "assets/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
