@@ -101,7 +101,8 @@ body::after {
   transition: opacity .5s var(--ease-out), transform .5s var(--ease-out);
 }
 .scene.active { opacity: 1; pointer-events: auto; transform: none; }
-.scene { justify-content: safe center; overflow-y: auto; }
+.scene { justify-content: safe center; overflow-y: auto; scrollbar-width: none; }
+.scene::-webkit-scrollbar { display: none; }
 .scene-scroll { justify-content: flex-start; overscroll-behavior: contain; }
 
 .scene-title {

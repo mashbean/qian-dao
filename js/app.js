@@ -664,7 +664,7 @@ async function boot() {
   initEnter(); initPray(); initAsk(); initShake(); initConfirm(); initBag(); initShare(); initAgain();
   $("#btnEnter").addEventListener("click", () => { ac(); go("scene-pray"); });
   try {
-    const res = await fetch("data/qian.json?v=4");
+    const res = await fetch("data/qian.json?v=5");
     QIAN = await res.json();
   } catch (e) {
     $("#dailyLuck").textContent = "籤庫暫時取不下來，請稍後再來。";
