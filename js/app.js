@@ -579,6 +579,8 @@ function siteUrl(id) {
 }
 function fullUrl(id) { return "https://" + siteUrl(id).replace(/^https:\/\//, ""); }
 function initShare() {
+  // 桌面（精準指標）不走分享面板：share() 在非同步繪卡後常因手勢逾時被拒
+  const COARSE_POINTER = matchMedia("(pointer: coarse)").matches;
   function downloadBlob(blob, name) {
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
@@ -594,19 +596,28 @@ function initShare() {
     try {
       const blob = await drawShareCard(current);
       const file = new File([blob], `qiandao-${current.id}.png`, { type: "image/png" });
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          files: [file],
-          title: "籤到",
-          text: `我在籤到抽到${current.level}——「${current.zen}」 ${fullUrl(current.id)}`,
-        });
+      const canShareFiles = COARSE_POINTER && navigator.canShare && navigator.canShare({ files: [file] });
+      if (canShareFiles) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: "籤到",
+            text: `我在籤到抽到${current.level}——「${current.zen}」 ${fullUrl(current.id)}`,
+          });
+        } catch (e) {
+          if (e && e.name !== "AbortError") { // 被瀏覽器拒絕（非使用者取消）→ 退回下載
+            downloadBlob(blob, file.name);
+            try { await navigator.clipboard.writeText(fullUrl(current.id)); done = "已存圖並複製連結"; }
+            catch (e2) { done = "已存圖"; }
+          }
+        }
       } else {
         // 桌機／不支援檔案分享：存圖＋複製連結一次完成
         downloadBlob(blob, file.name);
         try { await navigator.clipboard.writeText(fullUrl(current.id)); done = "已存圖並複製連結"; }
         catch (e) { done = "已存圖"; }
       }
-    } catch (e) { /* 使用者取消分享 */ }
+    } catch (e) { /* 繪卡失敗保底 */ }
     btn.disabled = false; btn.textContent = done;
     if (done !== "打卡分享") setTimeout(() => { btn.textContent = "打卡分享"; }, 2200);
   });
@@ -617,10 +628,15 @@ function initShare() {
     try {
       const blob = await drawShareCard(current);
       const file = new File([blob], `qiandao-${current.id}.png`, { type: "image/png" });
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        // 分享面板內選「儲存影像」即可存入相簿
-        await navigator.share({ files: [file], title: "籤到籤卡" });
-        btn.textContent = "已送出";
+      if (COARSE_POINTER && navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          // 手機分享面板內選「儲存影像」即可存入相簿
+          await navigator.share({ files: [file], title: "籤到籤卡" });
+          btn.textContent = "已送出";
+        } catch (e) {
+          if (e && e.name !== "AbortError") { downloadBlob(blob, file.name); btn.textContent = "已存"; }
+          else btn.textContent = "存圖片";
+        }
       } else {
         downloadBlob(blob, file.name);
         btn.textContent = "已存";
@@ -664,7 +680,7 @@ async function boot() {
   initEnter(); initPray(); initAsk(); initShake(); initConfirm(); initBag(); initShare(); initAgain();
   $("#btnEnter").addEventListener("click", () => { ac(); go("scene-pray"); });
   try {
-    const res = await fetch("data/qian.json?v=5");
+    const res = await fetch("data/qian.json?v=6");
     QIAN = await res.json();
   } catch (e) {
     $("#dailyLuck").textContent = "籤庫暫時取不下來，請稍後再來。";
