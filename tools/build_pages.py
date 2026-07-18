@@ -82,7 +82,7 @@ PAGE = '''<!DOCTYPE html>
 <meta property="og:image" content="{base}assets/og.png">
 <meta property="og:locale" content="zh_TW">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="{rel}assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="{rel}assets/favicon.svg" type="image/svg+xml">\n<link rel="apple-touch-icon" href="{rel}assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&display=swap">
